@@ -1,8 +1,8 @@
 const express = require('express');
-const pa
+const path = require('path');
 const app = express();
 
-app.use(express.static(''))
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 const port = process.env.PORT || 3000;
