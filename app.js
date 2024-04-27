@@ -4,7 +4,6 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 const port = process.env.PORT || 3000;
 const start = async () => {
   try {
@@ -16,3 +15,8 @@ const start = async () => {
 };
 
 start();
+
+const io = require('socket.io')(start);
+io. on('connection', (socket) => {
+  console.log(socket.id);
+})
