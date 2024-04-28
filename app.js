@@ -2,21 +2,42 @@ const express = require('express');
 const path = require('path');
 const app = express();
 
+const port = process.env.PORT || 3000;
+const server = app.listen( port, () => 
+console.log(`Listening on port ${port}...`)
+);
+
+const io = require('socket.io')(server);
+
 app.use(express.static(path.join(__dirname, 'public')));
 
-const port = process.env.PORT || 3000;
-const start = async () => {
-  try {
-    app.listen(port, () => console.log(`Listening on port ${port}...`));
+let socketsConnected = new Set()
 
-  } catch (error) {
-    console.log(error)
-  }
-};
+io. on('connection', onConnected);
 
-start();
-
-const io = require('socket.io')(start);
-io. on('connection', (socket) => {
+function onConnected(socket) {
   console.log(socket.id);
-})
+  socketsConnected.add(socket.id);
+
+  io.emit('clients-total', socketsConnected.size);
+
+  socket.on('disconnect' , () => {
+    console.log('Socket disconnected' , socket.id);
+    socketsConnected.delete(socket.id);
+
+    io.emit('clients-total', socketsConnected.size);
+  })
+
+}
+
+
+// const server = async () => {
+//   try {
+//     app.listen(port, () => console.log(`Listening on port ${port}...`));
+
+//   } catch (error) {
+//     console.log(error)
+//   }
+// };
+
+// server();
