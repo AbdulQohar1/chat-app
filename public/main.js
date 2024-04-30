@@ -21,14 +21,28 @@ function sendMessage() {
     message: messageInput.value,
     timeStamp: new Date()
   }
-  console.log(messageInput.value);
-
-  socket.emit('message' , data)
+  socket.emit('message' , data);
+  addMessageToUI( true , data);
+  messageInput.value = '';
 };
 
 socket.on('chat-message' , (data)  => {
-  console.log(data);
-})
+  // console.log(data);
+  addMessageToUI( false , data);
+});
+
+function  addMessageToUI( isOwnMessage, data) {
+  const element = `
+        <li class="${ isOwnMessage ? "message-right" : "message-left" }">
+        <p class="message">
+          ${data.message}
+          <span> ${data.name} 🔘 ${moment(data.timeStamp).fromNow()}</span>
+        </p>
+      </li>
+      `
+
+  messageContainer.innerHTML += element;
+}
 
 
 
