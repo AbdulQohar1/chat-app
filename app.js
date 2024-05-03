@@ -17,23 +17,25 @@ io. on('connection', onConnected);
 
 function onConnected(socket) {
   console.log(socket.id);
-  socketsConnected.add(socket.id)
+  socketsConnected.add(socket.id);
 
-  io.emit('clients-total', socketsConnected.size)
+  io.emit('clients-total', socketsConnected.size);
 
   socket.on('disconnect' , () => {
-    console.log('Socket disconnected' , socket.id);
+    console.log('Socket disconnected:' , socket.id);
     socketsConnected.delete(socket.id);
 
     io.emit('clients-total', socketsConnected.size);
   });
 
   socket.on('message' , (data) => {
-    console.log(data);
-    socket.broadcast.emit('chat-message' , data)
+    // console.log(data);
+    socket.broadcast.emit('chat-message:' , data)
   })
 
-
+  socket.on('feedback' , (data) => {
+    socket.broadcast.emit('feedback' , data);
+  })
 }
 
 
