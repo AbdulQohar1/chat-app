@@ -5,6 +5,9 @@ const messageContainer = document.getElementById('message-container');
 const nameInput = document.getElementById('name-input');
 const messageForm = document.getElementById('message-form');
 const messageInput = document.getElementById('message-input');
+
+const messageTone = new Audio('/message-tone.mp3');
+
  
 messageForm.addEventListener('submit' , (e) => {
   e.preventDefault();
@@ -23,32 +26,46 @@ function sendMessage() {
     timeStamp: new Date()
   }
   socket.emit('message' , data);
-  addMessageToUI( true, data); 
+  console.log(data);
+  addMessageToUI(true , data);
   messageInput.value = '';
 };
 
-socket.on('chat- message' , (data)  => {
-  // console.log(data);
-  addMessageToUI( false, data); 
+socket.on('chat-message' , (data)  => {
+  messageTone.play();
+  addMessageToUI(false , data)
  
 });
 
-function  addMessageToUI( isOwnMessage, data) {
-  clearFeedbackMessages();
-  
+function addMessageToUI(isOwnMessage , data) {
   const element = `
-    <li class=" ${ isOwnMessage ? "message-right" : "message-left"}">
+    <li class="${isOwnMessage ? "message-right" : "message-left"}">
       <p class="message">
         ${data.message}
-        <span> ${data.name} 🔘 ${moment(data.timeStamp).fromNow()} </span>
+        <span>${data.name} 🔘 ${moment(data.timeStamp).fromNow()}</span>
       </p>
     </li>
   `
 
   messageContainer.innerHTML += element;
-
-  scrollToBottom();
 };
+ 
+// function addMessageToUI( isOwnMessage, data) {
+//   clearFeedbackMessages();
+
+//   const element = `
+//     <li class=" ${isOwnMessage ? "message-right" : "message-left"}">
+//       <p class="message">
+//         ${data.message}
+//         <span>${data.name} 🔘 ${moment(data.timeStamp).fromNow()}</span>
+//       </p>
+//     </li>
+//   `
+  
+//   messageContainer.innerHTML += element;
+
+//   scrollToBottom();
+// };
 
 function scrollToBottom() {
   messageContainer.scrollTo(0, messageContainer.scrollHeight);
