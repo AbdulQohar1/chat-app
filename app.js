@@ -4,7 +4,7 @@ const app = express();
 
 const port = process.env.PORT || 3000;
 const server = app.listen( port, () => 
-console.log(`Listening on port ${port}...`)
+  console.log(`Listening on port ${port}...`)
 );
 
 const io = require('socket.io')(server);
@@ -28,9 +28,9 @@ function onConnected(socket) {
     io.emit('clients-total', socketsConnected.size);
   });
 
-  socket.on('message' , (data) => {
-    // console.log(data);
-    socket.broadcast.emit('chat-message:' , data)
+  socket.on('message', (data) => {
+    console.log(data);
+    socket.broadcast.emit('chat-message' , data);
   })
 
   socket.on('feedback' , (data) => {
