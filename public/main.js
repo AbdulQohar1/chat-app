@@ -1,8 +1,23 @@
 const socket = io();
 
-let localStream;
-let remoteStream;
-let peerConnection;
+// let APP_ID = 'b99185c9638e4a36b7dba86b2900ba9c';
+// let token = null;
+// let userId = String(Math.floor(Math.random() * 30000));
+
+// let client;
+// let channel;
+
+// let localStream;
+// let remoteStream;
+// let peerConnection;
+
+// const servers = {
+//   iceServers: [
+//     {
+//       urls: ['stun:stun1.1.google.com:19302', 'stun:stun2.1.google.com:19302']
+//     }
+//   ]
+// }
 
 const clientsTotal = document.getElementById('clients-total');
 const messageContainer = document.getElementById('message-container');
@@ -93,26 +108,57 @@ function clearFeedbackMessages() {
   document.querySelectorAll('li.message-feedback').forEach(element => element.parentNode.removeChild(element));
 }
 
-let init = async () => {
-  localStream = await navigator.mediaDevices.getUserMedia({
-    video: true,
-    audio: false
-  });
-  document.getElementById('user-1').srcObject = localStream;
+// let init = async () => {
+//   // client = await AgoraRTM.createInstance(APP_ID);
+//   client = await AgoraRTM.createInstance(APP_ID);
+//   await client.login({ userId, token});
 
-  createOffer();
-}; 
+//   // index.html?room=123445
+//   channel = client.createChannel('main');
+//   await channel.join();
 
-let createOffer = async () => {
-  peerConnection = new RTCPeerConnection();
+//   channel.on('MemberJoined' , handleUserJoined);
 
-  remoteStream = new MediaStream();
-  document.getElementById('user-2').srcObject = remoteStream;
+//   localStream = await navigator.mediaDevices.getUserMedia({
+//     video: true,
+//     audio: false
+//   });
+//   document.getElementById('user-1').srcObject = localStream;
 
-  let offer = await peerConnection.createOffer();
-  await peerConnection.setLocalDescription(offer);
+//   createOffer();
+// }; 
 
-  console.log('Offer:' , offer);
-}
+// let handleUserJoined = async (MemberId) => {
+// console.log('New user joined the channel:' , MemberId);
+// }
 
-init();
+// let createOffer = async () => {
+//   peerConnection = new RTCPeerConnection(servers);
+
+//   remoteStream = new MediaStream();
+//   document.getElementById('user-2').srcObject = remoteStream;
+
+//   localStream.getTracks().forEach( (track) => {
+//     peerConnection.addTrack( track, localStream)
+//   });
+
+//   peerConnection.ontrack = (event) => {
+//     event.streams[0].getTracks().forEach( (track) => {
+//       remoteStream.addTrack(track)
+//     })
+//   };
+
+//   peerConnection.onicecandidate = async (event) => {
+//     if (event.candidate) {
+//       console.log('New ICE candidate:', event.candidate);
+//     }
+//   }
+
+
+//   let offer = await peerConnection.createOffer();
+//   await peerConnection.setLocalDescription(offer);
+
+//   // console.log('Offer:' , offer);
+// }
+
+// init();
