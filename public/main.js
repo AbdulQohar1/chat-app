@@ -1,24 +1,5 @@
 const socket = io();
 
-// let APP_ID = 'b99185c9638e4a36b7dba86b2900ba9c';
-// let token = null;
-// let userId = String(Math.floor(Math.random() * 30000));
-
-// let client;
-// let channel;
-
-// let localStream;
-// let remoteStream;
-// let peerConnection;
-
-// const servers = {
-//   iceServers: [
-//     {
-//       urls: ['stun:stun1.1.google.com:19302', 'stun:stun2.1.google.com:19302']
-//     }
-//   ]
-// }
-
 const clientsTotal = document.getElementById('clients-total');
 const messageContainer = document.getElementById('message-container');
 const nameInput = document.getElementById('name-input');
